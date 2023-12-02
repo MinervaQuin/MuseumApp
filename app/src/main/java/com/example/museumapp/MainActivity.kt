@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.museumapp.model.firebaseAuth.GoogleAuthUiClient
+import com.example.museumapp.ui.HomeView
 import com.example.museumapp.ui.LoginView
 import com.example.museumapp.ui.signUpView
 //import com.example.museumapp.ui.LoginView
@@ -32,8 +33,10 @@ import com.example.museumapp.ui.signUpView
 import com.example.museumapp.ui.theme.MuseumAppTheme
 import com.example.museumapp.viewModel.loginViewModel
 import com.google.android.gms.auth.api.identity.Identity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     public val googleAuthUiClient by lazy {
@@ -66,7 +69,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "firstScreens"){
+            NavHost(navController = navController, startDestination = "homeView"){
 
                 navigation(
                     startDestination = "login",
@@ -129,6 +132,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("signUp") { signUpView(navController = navController)}
                 }
+
+                composable("homeView") { HomeView("Minerva", navController = navController)}
+
+
 
 
             }
