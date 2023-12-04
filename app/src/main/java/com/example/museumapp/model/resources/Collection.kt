@@ -3,7 +3,8 @@ package com.example.museumapp.model.resources
 class Collection (
     var name: String = "",
     var description: String = "",
-    var books: Array<Book?> = arrayOf()
+    var books: Array<Book?> = arrayOf(),
+    var cover: String = ""
 ){
     override fun toString(): String {
 
