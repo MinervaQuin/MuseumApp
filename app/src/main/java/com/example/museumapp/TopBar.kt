@@ -56,7 +56,9 @@ import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
 import com.example.museumapp.ui.theme.black
 import com.example.museumapp.ui.theme.blue
-
+import com.example.museumapp.ui.theme.gray
+import com.example.museumapp.ui.theme.grisClaro
+import com.example.museumapp.ui.theme.white
 
 
 data class NavigationItem(
@@ -147,9 +149,11 @@ fun TopBar(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .border(1.dp, color = green)
         ) {
-            DismissibleDrawerSheet {
+            DismissibleDrawerSheet(
+                drawerContainerColor = black,
+                drawerContentColor = black,
+            ) {
                 Spacer(modifier = Modifier.height(55.dp))
                 Column(
                     modifier = Modifier
@@ -168,9 +172,11 @@ fun TopBar(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     // Agrega el nombre del usuario debajo de la imagen
-                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = black)
+                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = gray)
                 }
-                Divider(modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp), color = black, thickness = 1.dp)
+                Divider(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp), color = green, thickness = 1.dp)
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(8.dp)
@@ -178,7 +184,7 @@ fun TopBar(navController: NavController) {
                     items.forEachIndexed { index, item ->
                         item {
                             NavigationDrawerItem(
-                                label = { Text(text = item.title) },
+                                label = { Text(text = item.title, color = gray ) },
                                 selected = item == selectedItem,
                                 onClick = {
                                     if(item.title != "Perfil" && item.title != "Cesta" && item.title != "Ayuda"){
@@ -195,16 +201,18 @@ fun TopBar(navController: NavController) {
                                             item.selectedIcon
                                         } else item.unselectedIcon,
                                         contentDescription = item.title,
-                                        tint = black
+                                        tint = green
                                     )
                                 },
+                                colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = green, unselectedContainerColor = black ),
                                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                             )
                             if (index == 1) {
                                 Divider(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
                                         .padding(start = 30.dp, end = 30.dp),
-                                    color = black,
+                                    color = green,
                                     thickness = 1.dp
                                 )
                             }
@@ -214,9 +222,12 @@ fun TopBar(navController: NavController) {
             }
         }
     },
+
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
-        modifier = Modifier.width(250.dp).border(5.dp, green)
+        modifier = Modifier
+            .width(250.dp)
+            .border(5.dp, green)
     ) {
 
     }
@@ -229,6 +240,7 @@ fun TopBar(navController: NavController) {
                 color = green,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(end = 32.dp)
                     .wrapContentSize(Alignment.Center)
             )
         },
@@ -253,21 +265,6 @@ fun TopBar(navController: NavController) {
                     modifier = Modifier.size(32.dp)
                 )
 
-            }
-        },
-        actions = {
-            IconButton(
-                onClick = {
-                    // Navega al destino del menú hamburguesa
-                    navController.navigate("Profile")
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Perfil",
-                    tint = if (isOnCartScreen) green else blue,
-                    modifier = Modifier.size(32.dp)
-                )
             }
         },
     )
