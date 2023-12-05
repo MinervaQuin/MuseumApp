@@ -1,6 +1,5 @@
 package com.example.museumapp
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,11 +51,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.museumapp.ui.theme.gray
 import com.example.museumapp.ui.theme.green
 import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
-import com.example.museumapp.ui.theme.white
+import com.example.museumapp.ui.theme.black
+import com.example.museumapp.ui.theme.blue
+
 
 
 data class NavigationItem(
@@ -168,9 +168,9 @@ fun TopBar(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     // Agrega el nombre del usuario debajo de la imagen
-                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = gray)
+                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = black)
                 }
-                Divider(modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp), color = gray, thickness = 1.dp)
+                Divider(modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp), color = black, thickness = 1.dp)
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(8.dp)
@@ -195,7 +195,7 @@ fun TopBar(navController: NavController) {
                                             item.selectedIcon
                                         } else item.unselectedIcon,
                                         contentDescription = item.title,
-                                        tint = gray
+                                        tint = black
                                     )
                                 },
                                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
@@ -204,7 +204,7 @@ fun TopBar(navController: NavController) {
                                 Divider(
                                     modifier = Modifier.fillMaxWidth()
                                         .padding(start = 30.dp, end = 30.dp),
-                                    color = gray,
+                                    color = black,
                                     thickness = 1.dp
                                 )
                             }
@@ -221,12 +221,12 @@ fun TopBar(navController: NavController) {
 
     }
     TopAppBar(
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = green),
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = black),
         title = {
             Text(
-                text = "Palabras en Papel",
+                text = "MUSEO HISTORIUM",
                 fontSize = 20.sp,
-                color = gray,
+                color = green,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentSize(Alignment.Center)
@@ -249,7 +249,7 @@ fun TopBar(navController: NavController) {
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = "Menú",
-                    tint = if(drawerState.currentValue  == DrawerValue.Closed) gray else white,
+                    tint = if(drawerState.currentValue  == DrawerValue.Closed) green else blue,
                     modifier = Modifier.size(32.dp)
                 )
 
@@ -259,13 +259,13 @@ fun TopBar(navController: NavController) {
             IconButton(
                 onClick = {
                     // Navega al destino del menú hamburguesa
-                    navController.navigate("cartDestination")
+                    navController.navigate("Profile")
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "Carrito",
-                    tint = if (isOnCartScreen) white else gray,
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Perfil",
+                    tint = if (isOnCartScreen) green else blue,
                     modifier = Modifier.size(32.dp)
                 )
             }

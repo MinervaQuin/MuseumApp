@@ -18,9 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.museumapp.ui.theme.black
+import com.example.museumapp.ui.theme.blue
 import com.example.museumapp.ui.theme.green
-import com.example.museumapp.ui.theme.gray
-import com.example.museumapp.ui.theme.white
+
 
 
 @Composable
@@ -37,7 +38,7 @@ fun BottomBar(navController: NavController){
         }
     }
     BottomAppBar(
-        containerColor = green,
+        containerColor = black,
         modifier = Modifier
             .fillMaxWidth()
             .height(65.dp),
@@ -46,7 +47,7 @@ fun BottomBar(navController: NavController){
                 icon = {
                     Icon(Icons.Default.Person,
                         contentDescription = "profile",
-                        tint = if (currentRoute == "profile") white else gray,
+                        tint = if (currentRoute == "profile") blue else green,
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "profile",
                 onClick = {
@@ -57,7 +58,7 @@ fun BottomBar(navController: NavController){
                 icon = {
                     Icon(Icons.Default.Home,
                         contentDescription = "homePage",
-                        tint = if (currentRoute == "homePage") white else gray,
+                        tint = if (currentRoute == "homePage") blue else green,
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "homePage",
                 onClick = {
@@ -68,7 +69,7 @@ fun BottomBar(navController: NavController){
                 icon = {
                     Icon(Icons.Default.LocationOn,
                         contentDescription = "location",
-                        tint = if (currentRoute == "map") white else gray,
+                        tint = if (currentRoute == "map") blue else green,
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "map",
                 onClick = {
