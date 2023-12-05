@@ -35,6 +35,8 @@ import com.example.museumapp.viewModel.loginViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.example.museumapp.ui.*
+import com.example.museumapp.viewModel.coleccionesViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "homeView"){
+            NavHost(navController = navController, startDestination = "Coleccionesview"){
 
                 navigation(
                     startDestination = "login",
@@ -134,6 +136,10 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable("homeView") { HomeView("Minerva", navController = navController)}
+                composable("Coleccionesview") {
+                    val viewModel = viewModel<coleccionesViewModel>()
+                    coleccionesView(navController,viewModel)
+                }
 
 
 

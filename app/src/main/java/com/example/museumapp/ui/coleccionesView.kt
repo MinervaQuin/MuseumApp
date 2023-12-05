@@ -78,7 +78,7 @@ fun coleccionesView (navController: NavController,viewModel: coleccionesViewMode
                 Text(
                     text = superCollection?.name ?: "",
                     style = TextStyle(
-                    fontSize = 12.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight(400),
                     fontStyle = FontStyle.Italic,
                     color = Color(0xFF000000),
@@ -104,8 +104,8 @@ fun colectionPreview(coleccion: Collection, navController: NavController){
     Box(
         modifier = Modifier
             .padding(10.dp)
-            .width(75.dp)
-            .height(97.dp)
+            .width(100.dp)
+            .height(129.dp)
             .shadow(
                 elevation = 4.dp,
                 spotColor = Color(0x40000000),
@@ -123,15 +123,15 @@ fun colectionPreview(coleccion: Collection, navController: NavController){
                 model = coleccion!!.cover,
                 contentDescription = null,
                 modifier = Modifier
-                    .width(75.dp)
-                    .height(75.2.dp)
+                    .width(85.dp)
+                    .height(85.2.dp)
                     .align(Alignment.CenterHorizontally),
                 contentScale = ContentScale.Crop
             )
             Text(
                 text = coleccion!!.name,
                 style = TextStyle(
-                    fontSize = 7.sp,
+                    fontSize = 10.sp,
                     fontWeight = FontWeight(400),
                     fontStyle = FontStyle.Italic,
                     color = Color(0xFF010101),
