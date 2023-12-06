@@ -7,7 +7,9 @@ import com.example.museumapp.model.resources.AuthorFb
 import com.example.museumapp.model.resources.Book
 import com.example.museumapp.model.resources.Collection
 import com.example.museumapp.model.resources.Review
+import com.example.museumapp.model.resources.User
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
@@ -60,6 +62,36 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
             emptyList()
         }
     }
+
+    override suspend fun getUserById(userId: String): User? {
+        val firestore = FirebaseFirestore.getInstance()
+        val userCollection = firestore.collection("users")
+
+        try {
+            val documentSnapshot: DocumentSnapshot = userCollection.document(userId).get().await()
+
+            if (documentSnapshot.exists()) {
+                val userData = documentSnapshot.data
+
+                // Extraer datos del documento y crear un objeto User
+                val name = userData?.get("name") as? String ?: ""
+                val email = userData?.get("email") as? String ?: ""
+                val photo = userData?.get("photo") as? String ?: ""
+
+                // Aquí asumimos que "scanned_works" es un campo de tipo Array en Firestore
+                val scannedWorks = (userData?.get("scanned_works") as? List<*>)?.map { it.toString() }?.toTypedArray()
+                    ?: arrayOf()
+
+                return User(name, email, photo, scannedWorks)
+            }
+        } catch (e: Exception) {
+            // Manejar excepciones, por ejemplo, problemas de red
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
 
 //    override suspend fun searchAllBooks(allBooks: List<Book?>, searchString: String): List<Book?> {
 //        val bookArray: MutableList<Book?> = mutableListOf()
