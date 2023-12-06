@@ -138,7 +138,7 @@ class MainActivity : ComponentActivity() {
                     composable("signUp") { signUpView(navController = navController)}
                 }
 
-                composable("homeView") { HomeView("Minerva", navController = navController)}
+                composable("homePage") { HomeView("Minerva", navController = navController)}
 
                 composable("coleccionesView"){
                     val viewModel = viewModel<coleccionesViewModel>()

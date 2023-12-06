@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,27 +27,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.museumapp.model.resources.User
 import com.example.museumapp.ui.theme.MuseumAppTheme
-import com.example.museumapp.viewModel.ProfileViewModel
+import com.example.museumapp.viewModel.MuseumAppViewModel
 
 @Composable
-fun ProfileView() {
-    val profileViewModel: ProfileViewModel = hiltViewModel()
-    var user by remember { mutableStateOf<User?>(null) }
+fun ProfileView(profileViewModel: MuseumAppViewModel = hiltViewModel()) {
+    val museumState by profileViewModel.museumState.collectAsState()
 
-    LaunchedEffect(profileViewModel) {
-        try {
-            user = profileViewModel.getUserById("9gQ3UeEIwX6vARlg2lhT")!!
-            profileViewModel.setUser(user!!)
-        } catch (e: Exception) {
-            Log.e("Firestore", "Error en ProfileView", e)
+    if(museumState.userLoggedIn == null){
+        LaunchedEffect(profileViewModel) {
+            try {
+                profileViewModel.getUserById(museumState.userId)?.let { profileViewModel.setUser(it) }
+            } catch (e: Exception) {
+                Log.e("Firestore", "Error en ProfileView", e)
+            }
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -56,9 +59,9 @@ fun ProfileView() {
     ) {
         // Profile Image
         AsyncImage(
-            model = user?.photo,
+            model = museumState.userLoggedIn?.photo,
             contentDescription = "Profile Picture",
-
+            contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .size(250.dp)
                 .clip(CircleShape)
@@ -68,7 +71,11 @@ fun ProfileView() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        user?.name?.let { androidx.compose.material.Text(it) }
+        museumState.userLoggedIn?.name.let {
+            if (it != null) {
+                androidx.compose.material.Text(it)
+            }
+        }
 
         Text(text = "Has escaneado " + profileViewModel.getScannedObras() + " de " + profileViewModel.getTotalObras() + " obras")
 

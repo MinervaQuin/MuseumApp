@@ -1,4 +1,5 @@
 package com.example.museumapp
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -45,13 +46,14 @@ fun BottomBar(navController: NavController){
         content= {
             BottomNavigationItem(
                 icon = {
+                    Log.d("route", currentRoute)
                     Icon(Icons.Default.Person,
                         contentDescription = "profile",
-                        tint = if (currentRoute == "profile") blue else green,
+                        tint = if (currentRoute == "profileView") blue else green,
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "profile",
                 onClick = {
-                    navController.navigate("profile")
+                    navController.navigate("profileView")
                 }
             )
             BottomNavigationItem(
