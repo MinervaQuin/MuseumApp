@@ -16,14 +16,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Collections
+import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Store
+import androidx.compose.material.icons.filled.Tour
+import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.material.icons.outlined.Book
+import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.ConfirmationNumber
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.outlined.Store
+import androidx.compose.material.icons.outlined.Tour
+import androidx.compose.material.icons.outlined.Wallpaper
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.Divider
@@ -86,52 +98,46 @@ fun TopBar(navController: NavController) {
             route = "profileView"
         ),
         NavigationItem(
-            title = "Cesta",
-            selectedIcon = Icons.Filled.ShoppingCart,
-            unselectedIcon = Icons.Outlined.ShoppingCart,
-            route = "cartDestination",
+            title = "Tienda",
+            selectedIcon = Icons.Filled.Store,
+            unselectedIcon = Icons.Outlined.Store,
+            route = "shop",
         ),
         NavigationItem(
-            title = "Imprescindibles",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category",
+            title = "Obras",
+            selectedIcon = Icons.Filled.Wallpaper,
+            unselectedIcon = Icons.Outlined.Wallpaper,
+            route = "",
         ),
         NavigationItem(
-            title = "Ficción",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Artistas",
+            selectedIcon = Icons.Filled.Palette,
+            unselectedIcon = Icons.Outlined.Palette,
+            route = ""
         ),
         NavigationItem(
-            title = "No Ficción",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Recorridos",
+            selectedIcon = Icons.Filled.Tour,
+            unselectedIcon = Icons.Outlined.Tour,
+            route = ""
         ),
         NavigationItem(
-            title = "Infantil",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Colecciones",
+            selectedIcon = Icons.Filled.Collections,
+            unselectedIcon = Icons.Outlined.Collections,
+            route = ""
         ),
         NavigationItem(
-            title = "Cómic y Manga",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Comprar entradas",
+            selectedIcon = Icons.Filled.ConfirmationNumber,
+            unselectedIcon = Icons.Outlined.ConfirmationNumber,
+            route = "ticket"
         ),
         NavigationItem(
-            title = "Ofertas",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "sales"
-        ),
-        NavigationItem(
-            title = "Ayuda",
+            title = "Información del Museo",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
-            route = "ayuda",
+            route = "info",
         )
     )
     DisposableEffect(navController) {
