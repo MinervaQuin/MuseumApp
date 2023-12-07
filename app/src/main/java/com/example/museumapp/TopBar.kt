@@ -83,7 +83,7 @@ fun TopBar(navController: NavController) {
             title = "Perfil",
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person,
-            route = "profile"
+            route = "profileView"
         ),
         NavigationItem(
             title = "Cesta",
@@ -136,8 +136,7 @@ fun TopBar(navController: NavController) {
     )
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            //selectedItem = items.find { it.route == destination.route }
-            isOnCartScreen = destination.route == "cartDestination"
+            selectedItem = items.find { it.route == destination.route }
         }
         navController.addOnDestinationChangedListener(listener)
 
@@ -145,6 +144,7 @@ fun TopBar(navController: NavController) {
             navController.removeOnDestinationChangedListener(listener)
         }
     }
+
     DismissibleNavigationDrawer(drawerContent = {
         Box(
             modifier = Modifier
@@ -204,7 +204,7 @@ fun TopBar(navController: NavController) {
                                         tint = green
                                     )
                                 },
-                                colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = green, unselectedContainerColor = black ),
+                                colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = grisClaro, unselectedContainerColor = black ),
                                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                             )
                             if (index == 1) {
