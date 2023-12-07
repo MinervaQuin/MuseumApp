@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
@@ -126,8 +128,12 @@ fun coleccionView (navController: NavController, viewModel: coleccionesViewModel
             )
         }
         else{
-            for (i in 0 until collection.works.size){
-                collection.works[i]?.let { it1 -> worksPreview(it1,navController) }
+            LazyColumn(){
+                items(1){
+                    for (i in 0 until collection.works.size){
+                        collection.works[i]?.let { it1 -> worksPreview(it1,navController) }
+                    }
+                }
             }
         }
     }
@@ -138,8 +144,10 @@ fun worksPreview(work: Work,navController: NavController){
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(125.dp)
+            .height(95.dp)
             .padding(10.dp)
+            .clickable {
+            }
     )
     {
         AsyncImage(
@@ -153,8 +161,6 @@ fun worksPreview(work: Work,navController: NavController){
         Column(
             modifier = Modifier
                 .padding(10.dp)
-                .clickable {
-                }
         ) {
             Text(
                 text = work!!.author,
