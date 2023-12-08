@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -44,18 +45,7 @@ fun BottomBar(navController: NavController){
             .fillMaxWidth()
             .height(65.dp),
         content= {
-            BottomNavigationItem(
-                icon = {
-                    Log.d("route", currentRoute)
-                    Icon(Icons.Default.Person,
-                        contentDescription = "profile",
-                        tint = if (currentRoute == "profileView") blue else green,
-                        modifier = Modifier.size(32.dp)) },
-                selected = navController.currentDestination?.route == "profile",
-                onClick = {
-                    navController.navigate("profileView")
-                }
-            )
+
             BottomNavigationItem(
                 icon = {
                     Icon(Icons.Default.Home,
@@ -69,13 +59,25 @@ fun BottomBar(navController: NavController){
             )
             BottomNavigationItem(
                 icon = {
-                    Icon(Icons.Default.LocationOn,
-                        contentDescription = "location",
-                        tint = if (currentRoute == "map") blue else green,
+                    Icon(Icons.Default.QrCodeScanner,
+                        contentDescription = "Lector qr",
+                        tint = if (currentRoute == "qr") blue else green,
                         modifier = Modifier.size(32.dp)) },
-                selected = navController.currentDestination?.route == "map",
+                selected = navController.currentDestination?.route == "qr",
                 onClick = {
-                    navController.navigate("map")
+                    navController.navigate("qr")
+                }
+            )
+            BottomNavigationItem(
+                icon = {
+                    Log.d("route", currentRoute)
+                    Icon(Icons.Default.Person,
+                        contentDescription = "profile",
+                        tint = if (currentRoute == "profileView") blue else green,
+                        modifier = Modifier.size(32.dp)) },
+                selected = navController.currentDestination?.route == "profile",
+                onClick = {
+                    navController.navigate("profileView")
                 }
             )
         }

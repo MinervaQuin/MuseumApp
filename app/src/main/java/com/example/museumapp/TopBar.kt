@@ -16,14 +16,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Collections
+import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Store
+import androidx.compose.material.icons.filled.Tour
+import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.material.icons.outlined.Book
+import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.ConfirmationNumber
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.outlined.Store
+import androidx.compose.material.icons.outlined.Tour
+import androidx.compose.material.icons.outlined.Wallpaper
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.Divider
@@ -56,7 +68,9 @@ import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
 import com.example.museumapp.ui.theme.black
 import com.example.museumapp.ui.theme.blue
-
+import com.example.museumapp.ui.theme.gray
+import com.example.museumapp.ui.theme.grisClaro
+import com.example.museumapp.ui.theme.white
 
 
 data class NavigationItem(
@@ -81,61 +95,54 @@ fun TopBar(navController: NavController) {
             title = "Perfil",
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person,
-            route = "profile"
+            route = "profileView"
         ),
         NavigationItem(
-            title = "Cesta",
-            selectedIcon = Icons.Filled.ShoppingCart,
-            unselectedIcon = Icons.Outlined.ShoppingCart,
-            route = "cartDestination",
+            title = "Tienda",
+            selectedIcon = Icons.Filled.Store,
+            unselectedIcon = Icons.Outlined.Store,
+            route = "shop",
         ),
         NavigationItem(
-            title = "Imprescindibles",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category",
+            title = "Obras",
+            selectedIcon = Icons.Filled.Wallpaper,
+            unselectedIcon = Icons.Outlined.Wallpaper,
+            route = "",
         ),
         NavigationItem(
-            title = "Ficción",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Artistas",
+            selectedIcon = Icons.Filled.Palette,
+            unselectedIcon = Icons.Outlined.Palette,
+            route = ""
         ),
         NavigationItem(
-            title = "No Ficción",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Recorridos",
+            selectedIcon = Icons.Filled.Tour,
+            unselectedIcon = Icons.Outlined.Tour,
+            route = ""
         ),
         NavigationItem(
-            title = "Infantil",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Colecciones",
+            selectedIcon = Icons.Filled.Collections,
+            unselectedIcon = Icons.Outlined.Collections,
+            route = "coleccionesView"
         ),
         NavigationItem(
-            title = "Cómic y Manga",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "Category"
+            title = "Comprar entradas",
+            selectedIcon = Icons.Filled.ConfirmationNumber,
+            unselectedIcon = Icons.Outlined.ConfirmationNumber,
+            route = "ticket"
         ),
         NavigationItem(
-            title = "Ofertas",
-            selectedIcon = Icons.Filled.Book,
-            unselectedIcon = Icons.Outlined.Book,
-            route = "sales"
-        ),
-        NavigationItem(
-            title = "Ayuda",
+            title = "Información del Museo",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
-            route = "ayuda",
+            route = "info",
         )
     )
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            //selectedItem = items.find { it.route == destination.route }
-            isOnCartScreen = destination.route == "cartDestination"
+            selectedItem = items.find { it.route == destination.route }
         }
         navController.addOnDestinationChangedListener(listener)
 
@@ -143,13 +150,16 @@ fun TopBar(navController: NavController) {
             navController.removeOnDestinationChangedListener(listener)
         }
     }
+
     DismissibleNavigationDrawer(drawerContent = {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .border(1.dp, color = green)
         ) {
-            DismissibleDrawerSheet {
+            DismissibleDrawerSheet(
+                drawerContainerColor = black,
+                drawerContentColor = black,
+            ) {
                 Spacer(modifier = Modifier.height(55.dp))
                 Column(
                     modifier = Modifier
@@ -168,9 +178,11 @@ fun TopBar(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     // Agrega el nombre del usuario debajo de la imagen
-                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = black)
+                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = gray)
                 }
-                Divider(modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp), color = black, thickness = 1.dp)
+                Divider(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp), color = green, thickness = 1.dp)
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(8.dp)
@@ -178,7 +190,7 @@ fun TopBar(navController: NavController) {
                     items.forEachIndexed { index, item ->
                         item {
                             NavigationDrawerItem(
-                                label = { Text(text = item.title) },
+                                label = { Text(text = item.title, color = gray ) },
                                 selected = item == selectedItem,
                                 onClick = {
                                     if(item.title != "Perfil" && item.title != "Cesta" && item.title != "Ayuda"){
@@ -195,16 +207,18 @@ fun TopBar(navController: NavController) {
                                             item.selectedIcon
                                         } else item.unselectedIcon,
                                         contentDescription = item.title,
-                                        tint = black
+                                        tint = green
                                     )
                                 },
+                                colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = grisClaro, unselectedContainerColor = black ),
                                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                             )
                             if (index == 1) {
                                 Divider(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
                                         .padding(start = 30.dp, end = 30.dp),
-                                    color = black,
+                                    color = green,
                                     thickness = 1.dp
                                 )
                             }
@@ -214,9 +228,12 @@ fun TopBar(navController: NavController) {
             }
         }
     },
+
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
-        modifier = Modifier.width(250.dp).border(5.dp, green)
+        modifier = Modifier
+            .width(250.dp)
+            .border(5.dp, green)
     ) {
 
     }
@@ -229,6 +246,7 @@ fun TopBar(navController: NavController) {
                 color = green,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(end = 32.dp)
                     .wrapContentSize(Alignment.Center)
             )
         },
@@ -253,21 +271,6 @@ fun TopBar(navController: NavController) {
                     modifier = Modifier.size(32.dp)
                 )
 
-            }
-        },
-        actions = {
-            IconButton(
-                onClick = {
-                    // Navega al destino del menú hamburguesa
-                    navController.navigate("Profile")
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Perfil",
-                    tint = if (isOnCartScreen) green else blue,
-                    modifier = Modifier.size(32.dp)
-                )
             }
         },
     )
