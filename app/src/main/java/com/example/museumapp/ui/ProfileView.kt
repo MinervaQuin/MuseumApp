@@ -18,11 +18,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,19 +26,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
-import com.example.museumapp.model.resources.User
 import com.example.museumapp.ui.theme.MuseumAppTheme
-import com.example.museumapp.viewModel.MuseumAppViewModel
+import com.example.museumapp.viewModel.ProfileViewModel
 
 @Composable
-fun ProfileView(profileViewModel: MuseumAppViewModel = hiltViewModel()) {
-    val museumState by profileViewModel.museumState.collectAsState()
+fun ProfileView(profileViewModel: ProfileViewModel = hiltViewModel()) {
 
-    if(museumState.userLoggedIn == null){
+
+    if(profileViewModel.museumAppState.getUser() == null){
         LaunchedEffect(profileViewModel) {
             try {
-                profileViewModel.getUserById(museumState.userId)?.let { profileViewModel.setUser(it) }
+
+                profileViewModel.museumAppState.getUserById()
+                    ?.let { profileViewModel.museumAppState.setUser(it)
+                        profileViewModel.helloworld()}
+//                if(profileViewModel.museumAppState.getUser() == null) profileViewModel.helloworld()
             } catch (e: Exception) {
                 Log.e("Firestore", "Error en ProfileView", e)
             }
@@ -59,7 +58,7 @@ fun ProfileView(profileViewModel: MuseumAppViewModel = hiltViewModel()) {
     ) {
         // Profile Image
         AsyncImage(
-            model = museumState.userLoggedIn?.photo,
+            model = profileViewModel.museumAppState.getUser()?.photo,
             contentDescription = "Profile Picture",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
@@ -71,13 +70,13 @@ fun ProfileView(profileViewModel: MuseumAppViewModel = hiltViewModel()) {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        museumState.userLoggedIn?.name.let {
+        profileViewModel.museumAppState.getUser()?.name.let {
             if (it != null) {
                 androidx.compose.material.Text(it)
             }
         }
 
-        Text(text = "Has escaneado " + profileViewModel.getScannedObras() + " de " + profileViewModel.getTotalObras() + " obras")
+        Text(text = "Has escaneado " + profileViewModel.museumAppState.getScannedObras() + " de " + profileViewModel.museumAppState.getTotalObras() + " obras")
 
         Spacer(modifier = Modifier.height(35.dp))
 
