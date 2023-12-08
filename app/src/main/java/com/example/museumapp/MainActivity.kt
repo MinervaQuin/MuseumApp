@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "coleccionView"){
+            NavHost(navController = navController, startDestination = "homePage"){
 
                 navigation(
                     startDestination = "login",
@@ -139,7 +139,21 @@ class MainActivity : ComponentActivity() {
                     composable("signUp") { signUpView(navController = navController)}
                 }
 
-                composable("homePage") { HomeView("Minerva", navController = navController)}
+                composable("homePage") {
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                HomeView("Minerva", navController = navController)
+                            }
+                        }
+                    )
+                }
 
                 composable("coleccionesView"){
                     val viewModel = viewModel<coleccionesViewModel>()

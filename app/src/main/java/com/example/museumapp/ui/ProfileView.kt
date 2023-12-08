@@ -25,8 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.museumapp.ui.theme.MuseumAppTheme
@@ -78,11 +82,17 @@ fun ProfileView(profileViewModel: ProfileViewModel = hiltViewModel()) {
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            profileViewModel.museumAppState.getUser()?.name.let {
-                if (it != null) {
-                    androidx.compose.material.Text(it)
-                }
+            profileViewModel.museumAppState.getUser()?.name?.let {
+                Text(text = it,
+                    style = TextStyle(
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center),
+                    color = Color.Black
+
+                )
             }
+            Spacer(modifier = Modifier.height(5.dp))
 
             Text(text = "Has escaneado " + profileViewModel.museumAppState.getScannedObras() + " de " + profileViewModel.museumAppState.getTotalObras() + " obras")
 
@@ -98,7 +108,7 @@ fun ProfileView(profileViewModel: ProfileViewModel = hiltViewModel()) {
                     .padding(end = 30.dp, start = 30.dp)
                     .height(40.dp),
                 colors = ButtonDefaults.buttonColors(Color.White),
-                border = BorderStroke(2.dp, Color(0xFF77CF7C))
+                border = BorderStroke(2.dp, Color(0xFF5FB49C))
             ) {
                 androidx.compose.material.Text("Cambiar correo")
             }
@@ -114,7 +124,7 @@ fun ProfileView(profileViewModel: ProfileViewModel = hiltViewModel()) {
                     .padding(end = 30.dp, start = 30.dp)
                     .height(40.dp),
                 colors = ButtonDefaults.buttonColors(Color.White),
-                border = BorderStroke(2.dp, Color(0xFF77CF7C))
+                border = BorderStroke(2.dp, Color(0xFF5FB49C))
             ) {
                 androidx.compose.material.Text("Cambiar contraseña")
             }
@@ -130,7 +140,7 @@ fun ProfileView(profileViewModel: ProfileViewModel = hiltViewModel()) {
                     .padding(end = 30.dp, start = 30.dp)
                     .height(40.dp),
                 colors = ButtonDefaults.buttonColors(Color.White),
-                border = BorderStroke(2.dp, Color(0xFF77CF7C))
+                border = BorderStroke(2.dp, Color(0xFF5FB49C))
             ) {
                 androidx.compose.material.Text("Mis compras")
             }
