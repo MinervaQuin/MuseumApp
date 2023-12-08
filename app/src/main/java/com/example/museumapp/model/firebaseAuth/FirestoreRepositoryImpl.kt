@@ -2,11 +2,7 @@ package com.example.museumapp.model.firebaseAuth
 
 import android.util.Log
 import com.example.museumapp.model.FirestoreRepository
-import com.example.museumapp.model.resources.Author
-import com.example.museumapp.model.resources.AuthorFb
 import com.example.museumapp.model.resources.Book
-import com.example.museumapp.model.resources.Collection
-import com.example.museumapp.model.resources.Review
 import com.example.museumapp.model.resources.User
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
@@ -15,11 +11,7 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
-import java.util.regex.Pattern
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-import kotlin.random.Random
 
 
 class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore: FirebaseFirestore): FirestoreRepository {
@@ -117,9 +109,6 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
 //            emptyList()
 //        }
 //    }
-
-
-
 
 
 }

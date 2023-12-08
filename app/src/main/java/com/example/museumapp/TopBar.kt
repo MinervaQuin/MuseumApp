@@ -15,24 +15,20 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Store
 import androidx.compose.material.icons.filled.Tour
 import androidx.compose.material.icons.filled.Wallpaper
-import androidx.compose.material.icons.outlined.Book
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.ConfirmationNumber
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.icons.outlined.Store
 import androidx.compose.material.icons.outlined.Tour
 import androidx.compose.material.icons.outlined.Wallpaper
@@ -68,9 +64,8 @@ import kotlinx.coroutines.launch
 import coil.compose.AsyncImage
 import com.example.museumapp.ui.theme.black
 import com.example.museumapp.ui.theme.blue
-import com.example.museumapp.ui.theme.gray
+import com.example.museumapp.ui.theme.grey
 import com.example.museumapp.ui.theme.grisClaro
-import com.example.museumapp.ui.theme.white
 
 
 data class NavigationItem(
@@ -131,7 +126,7 @@ fun TopBar(navController: NavController) {
             title = "Comprar entradas",
             selectedIcon = Icons.Filled.ConfirmationNumber,
             unselectedIcon = Icons.Outlined.ConfirmationNumber,
-            route = "ticket"
+            route = "BuyTicket"
         ),
         NavigationItem(
             title = "Información del Museo",
@@ -178,7 +173,7 @@ fun TopBar(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     // Agrega el nombre del usuario debajo de la imagen
-                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = gray)
+                    Text(text = "Nombre de Usuario", fontSize = 16.sp, color = grey)
                 }
                 Divider(modifier = Modifier
                     .fillMaxWidth()
@@ -190,7 +185,7 @@ fun TopBar(navController: NavController) {
                     items.forEachIndexed { index, item ->
                         item {
                             NavigationDrawerItem(
-                                label = { Text(text = item.title, color = gray ) },
+                                label = { Text(text = item.title, color = grey ) },
                                 selected = item == selectedItem,
                                 onClick = {
                                     if(item.title != "Perfil" && item.title != "Cesta" && item.title != "Ayuda"){

@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,6 +42,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.museumapp.ui.*
+import com.example.museumapp.viewModel.BuyTicketViewModel
 import com.example.museumapp.viewModel.coleccionesViewModel
 import java.time.LocalDate
 
@@ -77,7 +79,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "coleccionView"){
+            NavHost(navController = navController, startDestination = "BuyTicket"){
 
                 navigation(
                     startDestination = "login",
@@ -213,9 +215,22 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-
-
-
+                composable("BuyTicket"){
+                    val viewModel : BuyTicketViewModel = hiltViewModel()
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                TicketScreen(viewModel)
+                            }
+                        }
+                    )
+                }
             }
         }
     }
