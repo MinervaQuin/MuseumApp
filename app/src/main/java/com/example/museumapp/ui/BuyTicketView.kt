@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -27,6 +26,8 @@ import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +35,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.museumapp.model.resources.TicketType
+import com.example.museumapp.model.resources.TicketTypes
 import com.example.museumapp.ui.theme.blue
 import com.example.museumapp.ui.theme.green
 import com.example.museumapp.ui.theme.gris
@@ -60,8 +63,8 @@ fun TicketScreen(viewModel: BuyTicketViewModel) {
     // Muestra el encabezado y el contenido del calendario
     currentSelectedDate?.let { selectedDate ->
         Header(selectedDate, viewModel)
-        Content(selectedDate, viewModel)
-        EntryTypeSection(viewModel)
+        Content(viewModel)
+        TicketTypeSection(viewModel)
         Button(
             onClick = { /*TODO*/ },
             modifier = Modifier
@@ -125,7 +128,7 @@ fun Header(selectedDate: LocalDate, viewModel: BuyTicketViewModel) {
 }
 
 @Composable
-fun Content(selectedDate: LocalDate, viewModel: BuyTicketViewModel) {
+fun Content(viewModel: BuyTicketViewModel) {
     LazyRow(
         modifier = Modifier
             .padding(bottom =  12.dp) // Ajusta el valor según tus necesidades
@@ -175,17 +178,18 @@ fun ContentItem(date: LocalDate, viewModel: BuyTicketViewModel) {
     }
 }
 @Composable
-fun EntryTypeSection(viewModel: BuyTicketViewModel) {
+fun TicketTypeSection(viewModel: BuyTicketViewModel) {
+    val ticketTypesList by TicketTypes.ticketTypesList.collectAsState()
+
     Column {
-        EntryTypeCard("Adulto", 15.99, viewModel)
-        EntryTypeCard("Menor de 13 años", 9.99, viewModel)
-        EntryTypeCard("Joven/Estudiante", 9.99, viewModel)
-        EntryTypeCard("Mayor de 60 años", 4.99, viewModel)
+        ticketTypesList.forEach { ticketType ->
+            TicketTypeCard(ticketType, viewModel)
+        }
     }
 }
 
 @Composable
-fun EntryTypeCard(entryType: String, price: Double, viewModel: BuyTicketViewModel) {
+fun TicketTypeCard(ticketType: TicketType, viewModel: BuyTicketViewModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,6 +197,7 @@ fun EntryTypeCard(entryType: String, price: Double, viewModel: BuyTicketViewMode
             .height(60.dp),
         elevation = 4.dp
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -201,11 +206,11 @@ fun EntryTypeCard(entryType: String, price: Double, viewModel: BuyTicketViewMode
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Columna 1: Tipo de entrada
-            Text(text = entryType, fontWeight = FontWeight.Bold)
+            Text(text = ticketType.name, fontWeight = FontWeight.Bold)
 
             // Columna 2: Precio
             Text(
-                text = "${price}€",
+                text = "${ticketType.price}€",
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .weight(1f)
@@ -217,11 +222,11 @@ fun EntryTypeCard(entryType: String, price: Double, viewModel: BuyTicketViewMode
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = { viewModel.decreaseTicketCount(ticketType) }) {
                     Icon(imageVector = Icons.Default.Remove, contentDescription = "Decrease")
                 }
-                Text(text = "0", modifier = Modifier.padding(horizontal = 4.dp))
-                IconButton(onClick = { /* TODO */ }) {
+                Text(text = "${ticketType.quantity}", modifier = Modifier.padding(horizontal = 4.dp))
+                IconButton(onClick = { viewModel.increaseTicketCount(ticketType) }) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Increase")
                 }
             }
