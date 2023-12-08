@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -79,7 +77,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "BuyTicket"){
+            NavHost(navController = navController, startDestination = "homePage"){
 
                 navigation(
                     startDestination = "login",
@@ -143,7 +141,21 @@ class MainActivity : ComponentActivity() {
                     composable("signUp") { signUpView(navController = navController)}
                 }
 
-                composable("homePage") { HomeView("Minerva", navController = navController)}
+                composable("homePage") {
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                HomeView("Minerva", navController = navController)
+                            }
+                        }
+                    )
+                }
 
                 composable("coleccionesView"){
                     val viewModel = viewModel<coleccionesViewModel>()

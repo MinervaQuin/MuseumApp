@@ -73,14 +73,12 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
                 // Aquí asumimos que "scanned_works" es un campo de tipo Array en Firestore
                 val scannedWorks = (userData?.get("scanned_works") as? List<*>)?.map { it.toString() }?.toTypedArray()
                     ?: arrayOf()
-
                 return User(name, email, photo, scannedWorks)
             }
         } catch (e: Exception) {
             // Manejar excepciones, por ejemplo, problemas de red
             e.printStackTrace()
         }
-
         return null
     }
 

@@ -138,6 +138,9 @@ dependencies {
     implementation ("io.ktor:ktor-client-serialization-jvm:2.3.6")
     implementation("io.ktor:ktor-server-content-negotiation:2.3.6")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
+
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
 }
 
 kapt {

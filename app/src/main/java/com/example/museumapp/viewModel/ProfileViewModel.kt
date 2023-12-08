@@ -1,48 +1,46 @@
 package com.example.museumapp.viewModel
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.museumapp.model.FirestoreRepository
 import com.example.museumapp.model.resources.MuseumAppState
 import com.example.museumapp.model.resources.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MuseumAppViewModel @Inject constructor(
-    private val firestoreRepository: FirestoreRepository
+class ProfileViewModel @Inject constructor(
+    val museumAppState: MuseumAppState,
+    // Otros inyectables si es necesario
+) : ViewModel() {
 
+    private val _userLoaded = MutableLiveData<Boolean>()
+    val userLoaded: LiveData<Boolean> get() = _userLoaded
 
-): ViewModel(){
-    private val _museumState = MutableStateFlow(MuseumAppState())
-    val museumState: StateFlow<MuseumAppState> get() = _museumState
-
-    // Getter y setter corregidos
-    fun getUser(): User? {
-        return _museumState.value.userLoggedIn
+    init {
+        loadUser()
     }
 
-    fun setUser(newUser: User) {
-        _museumState.update { currentState ->
-            currentState.copy(
-                userLoggedIn = newUser
-            )
+    private fun loadUser() {
+        viewModelScope.launch {
+            try {
+                val user = museumAppState.getUserById()
+                if (user != null) {
+                    museumAppState.setUser(user)
+                    _userLoaded.postValue(true)
+                } else {
+                    _userLoaded.postValue(false)
+                }
+            } catch (e: Exception) {
+                _userLoaded.postValue(false)
+                Log.e("Firestore", "Error en ProfileViewModel", e)
+            }
         }
     }
 
-    fun getScannedObras(): Int {
-        return _museumState.value.userLoggedIn?.scanned_works?.size ?: 0
-    }
-
-    fun getTotalObras(): Int {
-        return _museumState.value.totalNumOfWorks
-    }
-
-    suspend fun getUserById(userId: String): User? {
-        return firestoreRepository.getUserById(userId)
-    }
-
-
+    // Otras funciones del ViewModel
 }
