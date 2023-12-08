@@ -125,7 +125,7 @@ fun TopBar(navController: NavController) {
             title = "Colecciones",
             selectedIcon = Icons.Filled.Collections,
             unselectedIcon = Icons.Outlined.Collections,
-            route = ""
+            route = "coleccionesView"
         ),
         NavigationItem(
             title = "Comprar entradas",
