@@ -1,6 +1,7 @@
 package com.example.museumapp.model.resources
 
 import com.example.museumapp.model.FirestoreRepository
+import com.example.museumapp.model.firebaseAuth.UserData
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,6 +33,15 @@ class MuseumAppState @Inject constructor(
 
     suspend fun getUserById(): User? {
         return firestoreRepository.getUserById(userId)
+    }
+
+//    suspend fun getUserLogged() : UserData? {
+//        return firestoreRepository.getUser
+//    }
+
+    fun getUserId(): String {
+
+        return userId
     }
 
 }
