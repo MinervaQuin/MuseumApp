@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.museumapp.model.FirestoreRepository
-import com.example.museumapp.model.resources.MuseumAppState
-import com.example.museumapp.model.resources.User
+import com.example.museumapp.model.MuseumAppState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

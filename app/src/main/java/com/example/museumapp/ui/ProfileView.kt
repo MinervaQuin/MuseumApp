@@ -145,7 +145,7 @@ fun ProfileView(profileViewModel: ProfileViewModel = hiltViewModel()) {
                 androidx.compose.material.Text("Mis compras")
             }
 
-            Spacer(modifier = Modifier.height(85.dp))
+            Spacer(modifier = Modifier.height(55.dp))
 
             // Logout Button
             Button(

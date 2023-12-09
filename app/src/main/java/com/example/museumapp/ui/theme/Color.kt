@@ -15,8 +15,13 @@ val verdeFuerte = Color(0xFF77CF7C)
 val grisClaro = Color(0xFF636363)
 
 val green = Color(0xFF5FB49C)
+val greenDark = Color(0xFF356A5B)
+
+
 val black = Color(0xFF1E1E1E)
 val white = Color(0xFFFAFFFD)
 val blue = Color(0xFFC6E0FF)
+val blueDark = Color(0xFF91A7C2)
+
 val grey = Color(0xFFE1EFE6)
 val gris = Color(0xFF8D8D8D)

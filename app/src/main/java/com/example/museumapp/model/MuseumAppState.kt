@@ -1,8 +1,6 @@
-package com.example.museumapp.model.resources
+package com.example.museumapp.model
 
-import com.example.museumapp.model.FirestoreRepository
-import com.example.museumapp.model.firebaseAuth.UserData
-import kotlinx.coroutines.flow.update
+import com.example.museumapp.model.resources.User
 import javax.inject.Inject
 import javax.inject.Singleton
 

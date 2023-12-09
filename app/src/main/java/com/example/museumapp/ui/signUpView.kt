@@ -62,13 +62,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.foundation.shape.*
 import androidx.compose.material3.*
 import androidx.compose.ui.unit.dp
+import com.example.museumapp.ui.theme.green
 import com.example.museumapp.ui.theme.verdeFuerte
 import com.example.museumapp.viewModel.signUpViewModel
 
 @Composable
 fun signUpView(signUpViewModel: signUpViewModel = viewModel(), navController: NavController){
     //@TODO Sustituir el fondo por vectores animados
-    val image = painterResource(R.drawable.vector_sign)
+    val image = painterResource(R.drawable.signup)
 
     var userName by remember { mutableStateOf(TextFieldValue("")) }
     var userEmail by remember { mutableStateOf(TextFieldValue("")) }
@@ -128,7 +129,7 @@ fun signUpView(signUpViewModel: signUpViewModel = viewModel(), navController: Na
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                putText(text = "Registro", color = verdeFuerte, fontSize = 58.sp)
+                putText(text = "Registro", color = green, fontSize = 58.sp)
 
                 if(showFirstScreen){
                     Spacer(modifier = Modifier.height(8.dp))
@@ -175,7 +176,7 @@ fun signUpView(signUpViewModel: signUpViewModel = viewModel(), navController: Na
                 ){
                 Button(
                     onClick = { signUpViewModel.changeScreen() },
-                    colors = ButtonDefaults.buttonColors(verdeFuerte),
+                    colors = ButtonDefaults.buttonColors(green),
                     shape = CircleShape,
                     modifier = Modifier
                         .size(75.dp),
