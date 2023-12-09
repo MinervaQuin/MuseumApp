@@ -1,16 +1,15 @@
 package com.example.museumapp.viewModel
 
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
-import com.example.museumapp.model.FirestoreRepository
+import com.example.museumapp.model.resources.TicketType
+import com.example.museumapp.model.resources.TicketTypes
 import kotlinx.coroutines.launch
-import java.security.Timestamp
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -20,6 +19,7 @@ import javax.inject.Inject
 class BuyTicketViewModel @Inject constructor() : ViewModel() {
     val selectedDate = mutableStateOf(LocalDate.now())
     var selectedDayOfWeek: DayOfWeek? = null
+
 
     // Función para cargar datos del calendario
     fun loadCalendarData(startDate: LocalDate) {
@@ -71,5 +71,14 @@ class BuyTicketViewModel @Inject constructor() : ViewModel() {
         }
             .limit((numOfDays + 1).toLong())
             .collect(Collectors.toList())
+    }
+
+
+    fun increaseTicketCount(ticketType: TicketType) {
+        TicketTypes.increaseTicketCount(ticketType)
+    }
+
+    fun decreaseTicketCount(ticketType: TicketType) {
+        TicketTypes.decreaseTicketCount(ticketType)
     }
 }
