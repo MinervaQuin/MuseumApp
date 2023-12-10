@@ -1,6 +1,7 @@
 package com.example.museumapp
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Observer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -50,12 +53,13 @@ import com.example.museumapp.viewModel.BuyTicketViewModel
 import com.example.museumapp.viewModel.WorkViewModel
 import com.example.museumapp.viewModel.coleccionViewModel
 import com.example.museumapp.viewModel.coleccionesViewModel
+import com.example.museumapp.viewModel.qrViewModel
 import com.google.zxing.integration.android.IntentIntegrator
 import java.time.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    val qrviewModel: qrViewModel by viewModels()
     public val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
@@ -155,7 +159,7 @@ class MainActivity : ComponentActivity() {
 
                 composable("homePage") {
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -172,7 +176,7 @@ class MainActivity : ComponentActivity() {
                 composable("coleccionesView"){
                     val viewModel : coleccionesViewModel = hiltViewModel()
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -188,7 +192,7 @@ class MainActivity : ComponentActivity() {
                 composable("coleccionView"){
                     val viewModel : coleccionViewModel = hiltViewModel()
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -204,7 +208,7 @@ class MainActivity : ComponentActivity() {
                 composable("workView"){
                     val viewModel : WorkViewModel = hiltViewModel()
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -221,7 +225,7 @@ class MainActivity : ComponentActivity() {
 
                 composable("profileView"){
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -238,7 +242,7 @@ class MainActivity : ComponentActivity() {
                 composable("BuyTicket"){
                     val viewModel : BuyTicketViewModel = hiltViewModel()
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -288,12 +292,28 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    companion object {
-        fun initiateScan(context: Context) {
-            val integrator = IntentIntegrator(context as ComponentActivity)
-            integrator.setPrompt("Escanea el codigo de barras")
-            integrator.setBeepEnabled(false)
-            integrator.initiateScan()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        var result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data)
+        if (result != null){
+            if(result.contents == null) {
+                Toast.makeText(this,"Cancelado", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(this,"El valor escaneado es= ${result.contents}",Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch{
+                    qrviewModel.handleScanResult(result.contents)
+                }
+                qrviewModel.isFallo.observe(this, Observer { isFallo ->
+                    if (isFallo) {
+                        Toast.makeText(this,"No se ha encontrado el libro", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+
+        }else{
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 }

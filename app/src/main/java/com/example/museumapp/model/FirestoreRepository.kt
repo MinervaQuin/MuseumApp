@@ -13,4 +13,9 @@ interface FirestoreRepository {
 
     suspend fun getUserById(userId: String): User?
 
+    suspend fun uploadWorktoFirestore()
+
+    suspend fun timestampToLocalDate(timestamp: Timestamp): LocalDate
+    suspend fun convertLocalDateToTimestamp(localDate: LocalDate): Timestamp
+
 }
