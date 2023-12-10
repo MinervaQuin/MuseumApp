@@ -42,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.museumapp.ui.*
 import com.example.museumapp.viewModel.BuyTicketViewModel
+import com.example.museumapp.viewModel.WorkViewModel
 import com.example.museumapp.viewModel.coleccionViewModel
 import com.example.museumapp.viewModel.coleccionesViewModel
 import java.time.LocalDate
@@ -79,7 +80,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "coleccionesView"){
+            NavHost(navController = navController, startDestination = "workView"){
 
                 navigation(
                     startDestination = "login",
@@ -190,6 +191,22 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxSize()
                             ) {
                                 coleccionView(navController,viewModel)
+                            }
+                        }
+                    )
+                }
+                composable("workView"){
+                    val viewModel : WorkViewModel = hiltViewModel()
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                workView(navController,viewModel)
                             }
                         }
                     )
