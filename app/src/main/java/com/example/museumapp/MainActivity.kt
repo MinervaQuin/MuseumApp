@@ -1,5 +1,6 @@
 package com.example.museumapp
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -45,6 +48,7 @@ import com.example.museumapp.viewModel.BuyTicketViewModel
 import com.example.museumapp.viewModel.WorkViewModel
 import com.example.museumapp.viewModel.coleccionViewModel
 import com.example.museumapp.viewModel.coleccionesViewModel
+import com.google.zxing.integration.android.IntentIntegrator
 import java.time.LocalDate
 
 @AndroidEntryPoint
@@ -248,13 +252,14 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-
-
-
-
-
-
+    companion object {
+        fun initiateScan(context: Context) {
+            val integrator = IntentIntegrator(context as ComponentActivity)
+            integrator.setPrompt("Escanea el codigo de barras")
+            integrator.setBeepEnabled(false)
+            integrator.initiateScan()
+        }
+    }
 }
 
 @Composable
