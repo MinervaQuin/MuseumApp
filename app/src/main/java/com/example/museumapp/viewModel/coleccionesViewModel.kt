@@ -2,7 +2,6 @@ package com.example.museumapp.viewModel
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.example.museumapp.model.MuseumAppState
-import com.example.museumapp.model.resources.Book
 import com.example.museumapp.model.resources.Collection
 import com.example.museumapp.model.resources.SuperCollection
 import com.example.museumapp.model.resources.Work

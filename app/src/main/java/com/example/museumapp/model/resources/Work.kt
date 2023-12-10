@@ -8,5 +8,6 @@ data class Work(
     val authorid: String = "",
     val date_of_creation: LocalDate = LocalDate.now(),
     val cover: String = "",
-    val description: String = ""
+    val description: String = "",
+    val temp: Int = 0,
 )

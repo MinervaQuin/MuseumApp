@@ -3,10 +3,8 @@ package com.example.museumapp.viewModel
 import androidx.lifecycle.ViewModel
 import com.example.museumapp.model.MuseumAppState
 import com.example.museumapp.model.resources.Author
-import com.example.museumapp.model.resources.Collection
 import com.example.museumapp.model.resources.Work
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel

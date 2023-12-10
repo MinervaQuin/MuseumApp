@@ -7,7 +7,7 @@ class Author (
     var biography: String = "",
     var Place_Birth_and_Dead: String = "",
     var type: String = "",
-    var works: Array<Book?> = arrayOf()
+    var works: Array<Work> = arrayOf()
 )       {
     override fun toString(): String {
         val worksString = works.joinToString(separator = ", ", transform = { book ->

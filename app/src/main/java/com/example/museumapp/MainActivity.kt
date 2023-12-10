@@ -41,6 +41,8 @@ import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.museumapp.ui.*
+import com.example.museumapp.viewModel.AuthorViewModel
+import com.example.museumapp.viewModel.AuthorWorksViewModel
 import com.example.museumapp.viewModel.BuyTicketViewModel
 import com.example.museumapp.viewModel.WorkViewModel
 import com.example.museumapp.viewModel.coleccionViewModel
@@ -80,7 +82,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "coleccionesView"){
+            NavHost(navController = navController, startDestination = "AuthorWorksScreen"){
 
                 navigation(
                     startDestination = "login",
@@ -241,6 +243,40 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxSize()
                             ) {
                                 TicketScreen(viewModel)
+                            }
+                        }
+                    )
+                }
+
+                composable("AuthorScreen"){
+                    val viewModel : AuthorViewModel = hiltViewModel()
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                AuthorScreen(viewModel)
+                            }
+                        }
+                    )
+                }
+
+                composable("AuthorWorksScreen"){
+                    val viewModel : AuthorWorksViewModel = hiltViewModel()
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                AuthorWorksScreen(viewModel)
                             }
                         }
                     )
