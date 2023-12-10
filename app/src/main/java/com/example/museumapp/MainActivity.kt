@@ -28,8 +28,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.museumapp.model.firebaseAuth.GoogleAuthUiClient
-import com.example.museumapp.model.resources.Collection
-import com.example.museumapp.model.resources.Work
 import com.example.museumapp.ui.HomeView
 import com.example.museumapp.ui.LoginView
 import com.example.museumapp.ui.signUpView
@@ -41,11 +39,11 @@ import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.museumapp.ui.*
+import com.example.museumapp.viewModel.AuthorViewModel
 import com.example.museumapp.viewModel.BuyTicketViewModel
 import com.example.museumapp.viewModel.WorkViewModel
 import com.example.museumapp.viewModel.coleccionViewModel
 import com.example.museumapp.viewModel.coleccionesViewModel
-import java.time.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -80,7 +78,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "workView"){
+            NavHost(navController = navController, startDestination = "firstScreens"){
 
                 navigation(
                     startDestination = "login",
@@ -241,6 +239,22 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxSize()
                             ) {
                                 TicketScreen(viewModel)
+                            }
+                        }
+                    )
+                }
+                composable("AuthorView"){
+                    val viewModel : AuthorViewModel = hiltViewModel()
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                AuthorScreen(viewModel)
                             }
                         }
                     )

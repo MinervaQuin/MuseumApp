@@ -5,6 +5,8 @@ class Author (
     var name: String = "",
     var cover: String = "",
     var biography: String = "",
+    var Place_Birth_and_Dead: String = "",
+    var type: String = "",
     var works: Array<Book?> = arrayOf()
 )       {
     override fun toString(): String {
