@@ -44,7 +44,6 @@ import com.example.museumapp.viewModel.coleccionViewModel
 
 @Composable
 fun coleccionView (navController: NavController, viewModel: coleccionViewModel){
-    var introduccion by remember { mutableStateOf(true) }
     var collection = viewModel.coleccion
 
     val styleNoSelected = TextStyle(
@@ -91,49 +90,51 @@ fun coleccionView (navController: NavController, viewModel: coleccionViewModel){
                     .align(alignment = Alignment.BottomStart)
             )
         }
-        Row(
-            modifier= Modifier
-                .fillMaxWidth()
-                .height(35.dp)
-                .background(color = Color(0x891E1E1E))
-        ){
-            ClickableText(
-                text= AnnotatedString("INTRODUCCIÓN"),
-                onClick = {
-                    introduccion = true
-                },
-                style = if (introduccion ) styleSelected else styleNoSelected,
-                modifier = Modifier
-                    .padding(5.dp)
-            )
-            ClickableText(
-                text= AnnotatedString("OBRAS"),
-                onClick = {
-                    introduccion = false
-                },
-                style = if (introduccion ) styleNoSelected else styleSelected,
-                modifier = Modifier
-                    .padding(5.dp)
-            )
-        }
-        if(introduccion){
-            Text(
+        viewModel.introduccion?.let { introduccion ->
+            Row(
+                modifier= Modifier
+                    .fillMaxWidth()
+                    .height(35.dp)
+                    .background(color = Color(0x891E1E1E))
+            ){
+                ClickableText(
+                    text= AnnotatedString("INTRODUCCIÓN"),
+                    onClick = {
+                        viewModel.setIntro(true)
+                    },
+                    style = if (introduccion ) styleSelected else styleNoSelected,
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+                ClickableText(
+                    text= AnnotatedString("OBRAS"),
+                    onClick = {
+                        viewModel.setIntro(false)
+                    },
+                    style = if (introduccion ) styleNoSelected else styleSelected,
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+            }
+            if(introduccion){
+                Text(
                     text= collection!!.description,
                     style = TextStyle(
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF000000),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF000000),
                     ),
-                modifier = Modifier
-                    .padding(10.dp)
-                    .verticalScroll(rememberScrollState()),
-            )
-        }
-        else{
-            LazyColumn(){
-                items(1){
-                    for (i in 0 until collection.works.size){
-                        collection.works[i]?.let { it1 -> worksPreview(it1,navController) }
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .verticalScroll(rememberScrollState()),
+                )
+            }
+            else{
+                LazyColumn(){
+                    items(1){
+                        for (i in 0 until collection.works.size){
+                            collection.works[i]?.let { it1 -> worksPreview(it1,navController, viewModel) }
+                        }
                     }
                 }
             }
@@ -142,13 +143,15 @@ fun coleccionView (navController: NavController, viewModel: coleccionViewModel){
 }
 
 @Composable
-fun worksPreview(work: Work,navController: NavController){
+fun worksPreview(work: Work,navController: NavController, viewModel: coleccionViewModel){
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(95.dp)
             .padding(10.dp)
             .clickable {
+                viewModel.setWork(work)
+                navController.navigate("workView")
             }
     )
     {

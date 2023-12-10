@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "workView"){
+            NavHost(navController = navController, startDestination = "coleccionesView"){
 
                 navigation(
                     startDestination = "login",
