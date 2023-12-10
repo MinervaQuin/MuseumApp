@@ -13,4 +13,6 @@ interface FirestoreRepository {
 
     suspend fun getUserById(userId: String): User?
 
+    suspend fun uploadWorktoFirestore()
+
 }

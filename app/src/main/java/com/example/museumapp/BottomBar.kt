@@ -24,11 +24,11 @@ import androidx.navigation.NavController
 import com.example.museumapp.ui.theme.black
 import com.example.museumapp.ui.theme.blue
 import com.example.museumapp.ui.theme.green
-
+import com.example.museumapp.viewModel.qrViewModel
 
 
 @Composable
-fun BottomBar(navController: NavController){
+fun BottomBar(navController: NavController, viewmodel : qrViewModel){
     var currentRoute by remember { mutableStateOf("") }
 
     val context = LocalContext.current
@@ -68,7 +68,7 @@ fun BottomBar(navController: NavController){
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "qr",
                 onClick = {
-                    MainActivity.initiateScan(context)
+                    viewmodel.initiateScan(context)
                 }
             )
             BottomNavigationItem(
