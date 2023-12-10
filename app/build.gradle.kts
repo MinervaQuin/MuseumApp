@@ -36,9 +36,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildFeatures {
         compose = true
     }
@@ -121,6 +121,8 @@ dependencies {
     implementation ("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
     // CALENDAR
     implementation ("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
+    //LECTOR BARRAS
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 
     /*
     #####FIN DEPENDENCIAS DE TERCEROS####

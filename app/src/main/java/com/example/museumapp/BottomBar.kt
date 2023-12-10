@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.museumapp.ui.theme.black
@@ -29,6 +30,8 @@ import com.example.museumapp.ui.theme.green
 @Composable
 fun BottomBar(navController: NavController){
     var currentRoute by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             currentRoute = destination.route.toString()
@@ -65,7 +68,7 @@ fun BottomBar(navController: NavController){
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "qr",
                 onClick = {
-                    navController.navigate("qr")
+                    MainActivity.initiateScan(context)
                 }
             )
             BottomNavigationItem(
