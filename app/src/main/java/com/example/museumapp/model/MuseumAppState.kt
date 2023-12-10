@@ -1,6 +1,7 @@
 package com.example.museumapp.model
 
 import com.example.museumapp.model.resources.User
+import com.example.museumapp.model.resources.Collection
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,6 +12,15 @@ class MuseumAppState @Inject constructor(
     private var userLoggedIn: User? = null
     private val userId: String = "9gQ3UeEIwX6vARlg2lhT"
     private val totalNumOfWorks: Int = 0
+    private var coleccion: Collection = Collection()
+
+    fun setcoleccion(newColecction: Collection) {
+        coleccion = newColecction
+
+    }
+    fun getcoleccion(): Collection {
+        return coleccion
+    }
 
     fun getUser(): User? {
         return userLoggedIn

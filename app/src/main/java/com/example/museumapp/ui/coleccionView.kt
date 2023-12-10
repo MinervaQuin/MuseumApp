@@ -40,10 +40,12 @@ import coil.compose.AsyncImage
 import com.example.museumapp.model.resources.Work
 import com.example.museumapp.viewModel.coleccionesViewModel
 import com.example.museumapp.model.resources.Collection
+import com.example.museumapp.viewModel.coleccionViewModel
 
 @Composable
-fun coleccionView (navController: NavController, viewModel: coleccionesViewModel, collection: Collection){
+fun coleccionView (navController: NavController, viewModel: coleccionViewModel){
     var introduccion by remember { mutableStateOf(true) }
+    var collection = viewModel.coleccion
 
     val styleNoSelected = TextStyle(
         color = Color(0xFF5FB49C),

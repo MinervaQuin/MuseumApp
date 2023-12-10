@@ -89,7 +89,7 @@ fun coleccionesView (navController: NavController,viewModel: coleccionesViewMode
             LazyRow() {
                     items(1) {
                         superCollection?.collections?.forEach { collection ->
-                            collection?.let { it1 -> colectionPreview(it1, navController) }
+                            collection?.let { it1 -> colectionPreview(it1, navController, viewModel) }
                         }
                     }
                 }
@@ -100,7 +100,7 @@ fun coleccionesView (navController: NavController,viewModel: coleccionesViewMode
 
 
 @Composable
-fun colectionPreview(coleccion: Collection, navController: NavController){
+fun colectionPreview(coleccion: Collection, navController: NavController,viewModel: coleccionesViewModel){
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -113,6 +113,8 @@ fun colectionPreview(coleccion: Collection, navController: NavController){
             )
             .border(width = 1.dp, color = Color(0xFF000000))
             .clickable {
+                viewModel.setcolection(coleccion)
+                navController.navigate("coleccionView")
             }){
         Column(
             modifier = Modifier
@@ -141,9 +143,11 @@ fun colectionPreview(coleccion: Collection, navController: NavController){
         }
     }
 }
+
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewCategory() {
     val navController = rememberNavController()
     coleccionesView(navController, coleccionesViewModel())
-}
+}*/
