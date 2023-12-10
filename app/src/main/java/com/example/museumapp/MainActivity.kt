@@ -1,6 +1,7 @@
 package com.example.museumapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -95,8 +96,10 @@ class MainActivity : ComponentActivity() {
                         }
 
                         val launcher = rememberLauncherForActivityResult(
+
                             contract = ActivityResultContracts.StartIntentSenderForResult(),
                             onResult = {result ->
+                                Log.d("launcher", "result = ${result.resultCode}")
                                 if(result.resultCode == RESULT_OK) {
                                     lifecycleScope.launch {
                                         val signInResult = googleAuthUiClient.signInWithIntent(
@@ -127,6 +130,7 @@ class MainActivity : ComponentActivity() {
                             onSignInClick = {
                                 lifecycleScope.launch {
                                     val signInIntentSender = googleAuthUiClient.signIn()
+                                    Log.d("signInIntentSender", " ${googleAuthUiClient.signIn()}")
                                     launcher.launch(
                                         IntentSenderRequest.Builder(
                                             signInIntentSender ?: return@launch
