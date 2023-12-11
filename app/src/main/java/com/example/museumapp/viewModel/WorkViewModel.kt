@@ -25,4 +25,8 @@ class WorkViewModel @Inject constructor(
             autor = firestoreRepository.geArtist(work.authorid)
         }
     }
+
+    fun setnewAutor(autor : Author){
+        museumAppState.setAutor(autor)
+    }
 }

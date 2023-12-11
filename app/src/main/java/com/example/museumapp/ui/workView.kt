@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.museumapp.model.MuseumAppState
+import com.example.museumapp.model.resources.Author
 import com.example.museumapp.ui.theme.greenDark
 import com.example.museumapp.viewModel.WorkViewModel
 
@@ -108,7 +110,8 @@ fun workView (navController: NavController, viewModel: WorkViewModel){
                     .align(alignment = Alignment.CenterEnd)
                     .padding(10.dp)
                     .clickable(){
-
+                        viewModel.setnewAutor(autor as Author)
+                        navController.navigate("AuthorScreen")
                     }
             )
         }

@@ -1,6 +1,7 @@
 package com.example.museumapp.model
 
 import androidx.navigation.NavHostController
+import com.example.museumapp.model.resources.Author
 import com.example.museumapp.model.resources.User
 import com.example.museumapp.model.resources.Collection
 import com.example.museumapp.model.resources.Work
@@ -16,6 +17,7 @@ class MuseumAppState @Inject constructor(
     private val totalNumOfWorks: Int = 0
     private var coleccion: Collection = Collection()
     private var work: Work = Work()
+    private var autor: Author = Author()
     private lateinit var navController: NavHostController
 
 
@@ -32,6 +34,13 @@ class MuseumAppState @Inject constructor(
     }
     fun getWork(): Work {
         return work
+    }
+
+    fun setAutor(newAutor: Author) {
+        autor = newAutor
+    }
+    fun getAutor(): Author {
+        return autor
     }
 
 
