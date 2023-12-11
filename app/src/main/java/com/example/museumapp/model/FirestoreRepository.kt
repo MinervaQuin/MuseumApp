@@ -1,5 +1,6 @@
 package com.example.museumapp.model
 
+import com.example.museumapp.model.resources.Author
 import com.example.museumapp.model.resources.Book
 import com.example.museumapp.model.resources.Collection
 import com.example.museumapp.model.resources.SuperCollection
@@ -26,5 +27,6 @@ interface FirestoreRepository {
     suspend fun getAllCollections(collectionsIds: List<String>): List<Collection?>
     suspend fun getSuperCollection(superCollectionId: String) : SuperCollection?
     suspend fun getAllSuperCollections(): List<SuperCollection?>
+    suspend fun geArtist(artistId: String): Author?
 
 }

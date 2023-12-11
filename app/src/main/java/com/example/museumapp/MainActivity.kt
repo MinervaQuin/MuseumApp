@@ -301,13 +301,12 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this,"Cancelado", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(this,"El valor escaneado es= ${result.contents}",Toast.LENGTH_SHORT).show()
                 lifecycleScope.launch{
                     qrviewModel.handleScanResult(result.contents)
                 }
                 qrviewModel.isFallo.observe(this, Observer { isFallo ->
                     if (isFallo) {
-                        Toast.makeText(this,"No se ha encontrado el libro", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"No se ha encontrado la obra", Toast.LENGTH_SHORT).show()
                     }
                 })
             }

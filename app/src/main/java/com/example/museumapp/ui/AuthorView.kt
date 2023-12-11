@@ -70,7 +70,7 @@ fun AuthorScreen (viewModel: AuthorViewModel) {
                         )
                     )
                     Text(
-                        text = autor!!.Place_Birth_and_Dead,
+                        text = autor!!.place_Birth_and_Dead,
                         style = TextStyle(
                             fontSize = 10.sp,
                             fontWeight = FontWeight(400),

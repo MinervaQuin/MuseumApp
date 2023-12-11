@@ -31,9 +31,11 @@ class coleccionViewModel @Inject constructor(
     }
 
     fun setIntro(new : Boolean){
-        viewModelScope.launch{
+        /*viewModelScope.launch{
             firestoreRepository.uploadWorktoFirestore()
         }
+
+         */
         introduccion=new
     }
 }

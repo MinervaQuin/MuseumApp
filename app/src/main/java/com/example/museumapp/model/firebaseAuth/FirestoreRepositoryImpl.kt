@@ -2,6 +2,7 @@ package com.example.museumapp.model.firebaseAuth
 
 import android.util.Log
 import com.example.museumapp.model.FirestoreRepository
+import com.example.museumapp.model.resources.Author
 import com.example.museumapp.model.resources.AuthorFb
 import com.example.museumapp.model.resources.Book
 import com.example.museumapp.model.resources.CollectionFb
@@ -86,6 +87,32 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
             e.printStackTrace()
         }
         return null
+    }
+    override suspend fun geArtist(artistId: String): Author? {
+
+        return try {
+            val documentSnapshot = firebaseFirestore.collection("artists").document(artistId).get().await()
+
+            if (documentSnapshot.exists()) {
+
+                val autor = Author()
+
+                autor.id = documentSnapshot.getString("id")?: "No se ha encontrado un id"
+                autor.name = documentSnapshot.getString("name") ?: "No se ha encontrado un nombre"
+                autor.cover= documentSnapshot.getString("cover")?: "Not found"
+                autor.place_Birth_and_Dead =  documentSnapshot.getString("place_Birth_and_Dead")?: "Not found"
+                autor.type=  documentSnapshot.getString("type")?: "Not found"
+                autor.biography =  documentSnapshot.getString("biography")?: "Not found"
+                var workArray = getAllWorks(documentSnapshot.get("works") as? List<String> ?: listOf())
+                autor.works = workArray.toTypedArray()
+                autor
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.d("FirestoreRepository", "getAuthor failed with ", e)
+            null
+        }
     }
 
     override suspend fun getWork(workId: String): Work? {
@@ -248,7 +275,7 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
         )
 
         val newAuthor = AuthorFb(
-            id = 9,
+            id = "9",
             name = "Francisco de goya",
             biography = "t",
             cover = "https://dbe.rah.es/sites/default/files/styles/wide/public/imagenes/biografias/28608_Goya-y-Lucientes%2C-Francisco-de_0.jpg",

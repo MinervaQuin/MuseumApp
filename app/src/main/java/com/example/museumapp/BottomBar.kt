@@ -68,6 +68,7 @@ fun BottomBar(navController: NavController, viewmodel : qrViewModel){
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "qr",
                 onClick = {
+                    viewmodel.setNavController(navController)
                     viewmodel.initiateScan(context)
                 }
             )

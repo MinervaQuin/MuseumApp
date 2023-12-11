@@ -78,7 +78,7 @@ fun AuthorWorksScreen (viewModel: AuthorWorksViewModel) {
                         )
                     )
                     Text(
-                        text = autor!!.Place_Birth_and_Dead,
+                        text = autor!!.place_Birth_and_Dead,
                         style = TextStyle(
                             fontSize = 10.sp,
                             fontWeight = FontWeight(400),
@@ -131,9 +131,12 @@ fun AuthorWorksScreen (viewModel: AuthorWorksViewModel) {
             )
         }
         // Mostrar las obras
-        autor?.works?.forEach { obra ->
-            ObraItem(obra)
-        }
+        autor?.works
+            ?.filterNotNull()
+            ?.forEach { obra ->
+                ObraItem(obra)
+            }
+
     }
 }
 @Composable

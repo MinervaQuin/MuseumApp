@@ -1,7 +1,7 @@
 package com.example.museumapp.model.resources
 
 class AuthorFb(
-    var id: Int = 0,
+    var id: String = "",
     var name: String = "",
     var cover: String = "",
     var biography: String = "",
