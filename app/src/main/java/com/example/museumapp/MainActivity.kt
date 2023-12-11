@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "AuthorWorksScreen"){
+            NavHost(navController = navController, startDestination = "coleccionesView"){
 
                 navigation(
                     startDestination = "login",
@@ -259,7 +259,7 @@ class MainActivity : ComponentActivity() {
                 composable("AuthorScreen"){
                     val viewModel : AuthorViewModel = hiltViewModel()
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(
@@ -276,7 +276,7 @@ class MainActivity : ComponentActivity() {
                 composable("AuthorWorksScreen"){
                     val viewModel : AuthorWorksViewModel = hiltViewModel()
                     Scaffold(
-                        bottomBar = { BottomBar(navController = navController) },
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
                         topBar = { TopBar(navController = navController)},
                         content = { paddingValues ->
                             Column(

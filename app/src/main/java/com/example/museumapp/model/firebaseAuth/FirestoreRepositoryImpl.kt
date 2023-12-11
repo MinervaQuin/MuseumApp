@@ -5,6 +5,8 @@ import com.example.museumapp.model.FirestoreRepository
 import com.example.museumapp.model.resources.AuthorFb
 import com.example.museumapp.model.resources.Book
 import com.example.museumapp.model.resources.CollectionFb
+import com.example.museumapp.model.resources.Collection
+import com.example.museumapp.model.resources.SuperCollection
 import com.example.museumapp.model.resources.User
 import com.example.museumapp.model.resources.Work
 import com.example.museumapp.model.resources.WorkFb
@@ -86,6 +88,138 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
         return null
     }
 
+    override suspend fun getWork(workId: String): Work? {
+
+        return try {
+            val documentSnapshot = firebaseFirestore.collection("works").document(workId).get().await()
+
+            if (documentSnapshot.exists()) {
+
+                val work = Work()
+
+                work.name = documentSnapshot.getString("name") ?: "No se ha encontrado un nombre"
+                work.author = documentSnapshot.getString("author")?: "No se ha encontrado un autor"
+                work.authorid= documentSnapshot.getString("authorid")?: "Not found"
+                work.cover =  documentSnapshot.getString("cover")?: "Not found"
+                work.description=  documentSnapshot.getString("description")?: "Not found"
+                work.date_of_creation =  timestampToLocalDate(documentSnapshot.getTimestamp("date_of_creation")?:Timestamp(10,10))
+                work
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.d("FirestoreRepository", "getAuthor failed with ", e)
+            null
+        }
+    }
+    override suspend fun getCollection(collectionId: String) : Collection?{
+        return try {
+            val documentSnapshot = firebaseFirestore.collection("collections").document(collectionId).get().await()
+
+            if (documentSnapshot.exists()){
+                var collection = Collection()
+
+                collection.name = documentSnapshot.getString("name") ?: "Error al encontrar el nombre"
+                collection.description = documentSnapshot.getString("description") ?: "Error al encontrar la descripción"
+                collection.cover = documentSnapshot.getString("cover") ?: "Error al encontrar la cover"
+
+                var workArray = getAllWorks(documentSnapshot.get("works") as? List<String> ?: listOf())
+                collection.works = workArray.toTypedArray()
+
+                collection
+            }else{
+                //@TODO mensaje de error aqui
+                null
+            }
+
+        }
+        catch (e: Exception) {
+            Log.d("FirestoreRepository", "getCollection failed with ", e)
+            null
+        }
+    }
+
+    override suspend fun getSuperCollection(superCollectionId: String) : SuperCollection?{
+        return try {
+            val documentSnapshot = firebaseFirestore.collection("superCollections").document(superCollectionId).get().await()
+
+            if (documentSnapshot.exists()){
+                var superCollection = SuperCollection()
+
+                superCollection.name = documentSnapshot.getString("name") ?: "Error al encontrar el nombre"
+
+                var collectionsArray = getAllCollections(documentSnapshot.get("collections") as? List<String> ?: listOf())
+                superCollection.collections = collectionsArray.toTypedArray()
+
+                superCollection
+            }else{
+                //@TODO mensaje de error aqui
+                null
+            }
+
+        }
+        catch (e: Exception) {
+            Log.d("FirestoreRepository", "getCollection failed with ", e)
+            null
+        }
+    }
+
+    override suspend fun getAllWorks(worksIds: List<String>): List<Work?> {
+        val workArray: MutableList<Work?> = mutableListOf()
+        return try {
+            worksIds.forEach { workId ->
+                val work = getWork(workId)
+                if(work != null){
+                    workArray.add(work)
+                }
+            }
+            workArray
+        } catch (e: Exception) {
+            Log.d("FirestoreRepository", "getAllWorks failed with ", e)
+            emptyList()
+        }
+    }
+    override suspend fun getAllSuperCollections(): List<SuperCollection?> {
+        val Array: MutableList<SuperCollection?> = mutableListOf()
+        return try {
+            val querySnapshot = FirebaseFirestore.getInstance()
+                .collection("superCollections") // Reemplaza con el nombre de tu colección en Firestore
+                .get()
+                .await()
+
+            for (document in querySnapshot.documents) {
+
+                var superCollection = SuperCollection()
+                superCollection.name = document.getString("name") ?: "Error al encontrar el nombre"
+                var collectionsArray = getAllCollections(document.get("collections") as? List<String> ?: listOf())
+                superCollection.collections = collectionsArray.toTypedArray()
+
+                Array.add(superCollection)
+
+            }
+            Log.d("Firestore", Array.size.toString())
+            Array
+        } catch (e: Exception) {
+            Log.d("FirestoreRepository", "getAllBooks failed with ", e)
+            emptyList()
+        }
+    }
+
+    override suspend fun getAllCollections(collectionsIds: List<String>): List<Collection?> {
+        val collectionArray: MutableList<Collection?> = mutableListOf()
+        return try {
+            collectionsIds.forEach { collectionId ->
+                val collection = getCollection(collectionId)
+                if(collection != null){
+                    collectionArray.add(collection)
+                }
+            }
+            collectionArray
+        } catch (e: Exception) {
+            Log.d("FirestoreRepository", "getAllCollections failed with ", e)
+            emptyList()
+        }
+    }
 
     override suspend fun convertLocalDateToTimestamp(localDate: LocalDate): Timestamp {
         val zoneId = ZoneId.systemDefault()

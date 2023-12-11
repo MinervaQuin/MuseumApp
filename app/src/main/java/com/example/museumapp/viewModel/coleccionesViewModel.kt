@@ -1,23 +1,32 @@
 package com.example.museumapp.viewModel
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.museumapp.model.FirestoreRepository
 import com.example.museumapp.model.MuseumAppState
 import com.example.museumapp.model.resources.Collection
 import com.example.museumapp.model.resources.SuperCollection
 import com.example.museumapp.model.resources.Work
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class coleccionesViewModel @Inject constructor(
     val museumAppState: MuseumAppState,
+    private val firestoreRepository: FirestoreRepository
 ): ViewModel()  {
     var colecciones by mutableStateOf(listOf<SuperCollection?>())
         private set
 
     init {
-        colecciones= listOf(SuperCollection("Pintura Española", arrayOf(
+        viewModelScope.launch{
+            colecciones = firestoreRepository.getAllSuperCollections()
+        }
+
+
+        /*colecciones= listOf(SuperCollection("Pintura Española", arrayOf(
             Collection("Pintura romantica", "ta mu bueno ",arrayOf(
             ),"https://historia.nationalgeographic.com.es/medio/2019/12/12/caminante-mar-de-nubes-friedrich-cc_64c7fed4_1280x720.jpg")
         ),
@@ -67,7 +76,7 @@ class coleccionesViewModel @Inject constructor(
                 Collection("Pintura pintona", "ta mu bueno ",arrayOf(
 
                 ),"https://historia.nationalgeographic.com.es/medio/2019/12/12/caminante-mar-de-nubes-friedrich-cc_64c7fed4_1280x720.jpg")
-            )))
+            )))*/
     }
 
     fun setcolection(coleccion: Collection){
