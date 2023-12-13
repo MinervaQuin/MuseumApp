@@ -144,7 +144,8 @@ fun ObraItem(obra: Work) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(3.dp),
+            .padding(3.dp)
+            .clickable {  },
         verticalAlignment = Alignment.CenterVertically
     ) {
         obra.cover?.let { coverUrl ->

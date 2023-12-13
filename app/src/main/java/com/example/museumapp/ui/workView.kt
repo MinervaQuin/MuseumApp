@@ -80,6 +80,10 @@ fun workView (navController: NavController, viewModel: WorkViewModel){
                 .padding(10.dp)
         ){
             Row(
+                modifier= Modifier
+                    .clickable {
+                        navController.navigate("AuthorWorksScreen")
+                    }
             ) {
                 AsyncImage(
                     model = autor!!.cover,
