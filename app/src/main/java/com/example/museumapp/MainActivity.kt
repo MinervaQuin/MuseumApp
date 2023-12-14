@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "coleccionesView"){
+            NavHost(navController = navController, startDestination = "homePage"){
 
                 navigation(
                     startDestination = "login",
@@ -172,6 +172,38 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 }
+                composable("authorsView") {
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                AuthorsView(navController = navController)
+                            }
+                        }
+                    )
+                }
+
+                composable("worksView") {
+                    Scaffold(
+                        bottomBar = { BottomBar(navController = navController,qrviewModel) },
+                        topBar = { TopBar(navController = navController)},
+                        content = { paddingValues ->
+                            Column(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .fillMaxSize()
+                            ) {
+                                WorksView(navController = navController)
+                            }
+                        }
+                    )
+                }
+
 
                 composable("coleccionesView"){
                     val viewModel : coleccionesViewModel = hiltViewModel()

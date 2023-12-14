@@ -42,8 +42,8 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
 //        }
 //    }
 
-    override suspend fun getAllArtists(): List<Book?> {
-        val bookArray: MutableList<Book?> = mutableListOf()
+    override suspend fun getAllArtists(): List<AuthorFb?> {
+        val bookArray: MutableList<AuthorFb?> = mutableListOf()
         return try {
             val querySnapshot = FirebaseFirestore.getInstance()
                 .collection("artists") // Reemplaza con el nombre de tu colección en Firestore
@@ -51,7 +51,42 @@ class FirestoreRepositoryImpl @Inject constructor(private val firebaseFirestore:
                 .await()
 
             for (document in querySnapshot.documents) {
-                document.getString("name")?.let { Log.d("Firestore", it) }
+                var book = document.toObject(AuthorFb::class.java)
+
+                bookArray.add(book)
+
+            }
+            Log.d("Firestore", bookArray.size.toString())
+            bookArray
+        } catch (e: Exception) {
+            Log.d("FirestoreRepository", "getAllBooks failed with ", e)
+            emptyList()
+        }
+    }
+
+    override suspend fun getAllWorks(): List<Work?> {
+        val bookArray: MutableList<Work?> = mutableListOf()
+        return try {
+            val querySnapshot = FirebaseFirestore.getInstance()
+                .collection("works") // Reemplaza con el nombre de tu colección en Firestore
+                .get()
+                .await()
+
+            for (documentSnapshot in querySnapshot.documents) {
+//                var book = document.toObject(Work::class.java)
+
+                val work = Work()
+
+                work.name = documentSnapshot.getString("name") ?: "No se ha encontrado un nombre"
+                work.author = documentSnapshot.getString("author")?: "No se ha encontrado un autor"
+                work.authorid= documentSnapshot.getString("authorid")?: "Not found"
+                work.cover =  documentSnapshot.getString("cover")?: "Not found"
+                work.description=  documentSnapshot.getString("description")?: "Not found"
+                work.date_of_creation =  timestampToLocalDate(documentSnapshot.getTimestamp("date_of_creation")?:Timestamp(10,10))
+                work
+
+
+                bookArray.add(work)
 
             }
             Log.d("Firestore", bookArray.size.toString())

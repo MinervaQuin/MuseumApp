@@ -52,6 +52,8 @@ import com.example.museumapp.viewModel.WorkViewModel
 fun workView (navController: NavController, viewModel: WorkViewModel){
 
     var work = viewModel.work
+    viewModel.autor?.let { viewModel.museumAppState.setAutor(it) }
+    viewModel.museumAppState.setWork(viewModel.work)
     var autor = viewModel.autor
     var showDialog by remember { mutableStateOf(false) }
 

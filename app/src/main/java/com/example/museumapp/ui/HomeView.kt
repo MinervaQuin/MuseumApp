@@ -67,7 +67,7 @@ fun HomeView(name: String, navController: NavController, modifier: Modifier = Mo
             val fontSize = 18.sp
             Button(
                 onClick = {
-                    // TODO: cambiar correo
+                    navController.navigate("authorsView")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -90,7 +90,7 @@ fun HomeView(name: String, navController: NavController, modifier: Modifier = Mo
 
             Button(
                 onClick = {
-                    // TODO: cambiar correo
+                    navController.navigate("worksView")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
