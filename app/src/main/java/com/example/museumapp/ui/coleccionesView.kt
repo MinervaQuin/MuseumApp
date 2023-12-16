@@ -1,5 +1,6 @@
 package com.example.museumapp.ui
 
+import android.app.ProgressDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,11 +17,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +40,21 @@ import com.example.museumapp.model.resources.Collection
 
 @Composable
 fun coleccionesView (navController: NavController,viewModel: coleccionesViewModel){
+    val loading by viewModel.loading.collectAsState()
+    val context = LocalContext.current
+    if (loading) {
+        DisposableEffect(Unit) {
+            val progressDialog = ProgressDialog(context)
+            progressDialog.setTitle("Cargando...")
+            progressDialog.setMessage("Por favor, espere")
+            progressDialog.setCancelable(true)
+            progressDialog.show()
+
+            onDispose {
+                progressDialog.dismiss()
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -89,7 +109,7 @@ fun coleccionesView (navController: NavController,viewModel: coleccionesViewMode
             LazyRow() {
                     items(1) {
                         superCollection?.collections?.forEach { collection ->
-                            collection?.let { it1 -> colectionPreview(it1, navController) }
+                            collection?.let { it1 -> colectionPreview(it1, navController, viewModel) }
                         }
                     }
                 }
@@ -100,7 +120,7 @@ fun coleccionesView (navController: NavController,viewModel: coleccionesViewMode
 
 
 @Composable
-fun colectionPreview(coleccion: Collection, navController: NavController){
+fun colectionPreview(coleccion: Collection, navController: NavController,viewModel: coleccionesViewModel){
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -113,6 +133,8 @@ fun colectionPreview(coleccion: Collection, navController: NavController){
             )
             .border(width = 1.dp, color = Color(0xFF000000))
             .clickable {
+                viewModel.setcolection(coleccion)
+                navController.navigate("coleccionView")
             }){
         Column(
             modifier = Modifier
@@ -141,9 +163,11 @@ fun colectionPreview(coleccion: Collection, navController: NavController){
         }
     }
 }
+
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewCategory() {
     val navController = rememberNavController()
     coleccionesView(navController, coleccionesViewModel())
-}
+}*/

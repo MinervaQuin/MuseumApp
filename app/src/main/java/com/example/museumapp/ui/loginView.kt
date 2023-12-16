@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.museumapp.R
 import com.example.museumapp.viewModel.loginViewModel
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Email
@@ -42,11 +45,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -55,6 +64,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.example.museumapp.ui.theme.*
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.museumapp.model.firebaseAuth.SignInState
@@ -62,7 +72,7 @@ import com.example.museumapp.model.firebaseAuth.SignInState
 @Composable
 fun LoginView(loginViewModel : loginViewModel = viewModel(), navController: NavController,state: SignInState, onSignInClick: () -> Unit){
     //@TODO: En vez de 1 solo elemento como fondo, hacer que sean 3 con animación de movimiento
-    val image = painterResource(R.drawable.fondo)
+    val image = painterResource(R.drawable.login)
     val googleIconImageVector = ImageVector.vectorResource(id = R.drawable.vector_google)
 
 
@@ -101,8 +111,9 @@ fun LoginView(loginViewModel : loginViewModel = viewModel(), navController: NavC
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                putText(text = "Inicia", color = verdeFuerte, fontSize = 58.sp)
-                putText(text = " Sesión", color = verdeFuerte, fontSize = 58.sp)
+                putText(text = "Inicia", color = greenDark, fontSize = 58.sp)
+                putText(text = " Sesión", color = greenDark, fontSize = 58.sp)
+
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -122,7 +133,7 @@ fun LoginView(loginViewModel : loginViewModel = viewModel(), navController: NavC
                     onClick = onSignInClick,
                     modifier = Modifier
                         .height(50.dp), // Altura del botón
-                    colors = ButtonDefaults.buttonColors(containerColor = verdeFuerte)
+                    colors = ButtonDefaults.buttonColors(containerColor = green)
 
                 ) {
                     Row(
@@ -161,7 +172,7 @@ fun LoginView(loginViewModel : loginViewModel = viewModel(), navController: NavC
                         navController.navigate("homePage")
                     }
                           },
-                colors = ButtonDefaults.buttonColors(verdeFuerte),
+                colors = ButtonDefaults.buttonColors(green),
                 shape = CircleShape,
                 modifier = Modifier
                     .size(75.dp),
@@ -178,8 +189,9 @@ fun LoginView(loginViewModel : loginViewModel = viewModel(), navController: NavC
                 //.fillMaxWidth()
                 .padding(16.dp),
         ){
-            Text(text = "No estás registrado? ")
+            Text(text = "No estás registrado? ", color= green)
             Text(
+                color= green,
                 text = "Registrate",
                 fontWeight = FontWeight.Bold, // Esto pone el texto en negrita
                 textDecoration = TextDecoration.Underline, // Esto subraya el texto
@@ -203,6 +215,7 @@ fun putText(
     color: Color = Color.Black,  // Parámetro de color con valor predeterminado
     fontWeight: FontWeight = FontWeight.Bold  // Parámetro de fontWeight con valor predeterminado
 ) {
+    val offset = Offset(5.0f, 10.0f)
     Text(
         text = text,
         modifier = modifier,
@@ -210,7 +223,12 @@ fun putText(
             fontSize = fontSize,
             fontWeight = fontWeight,
             lineHeight = 50.sp,
-            color = color
+            color = color,
+            shadow = Shadow(
+                    color = Color.White,
+                    offset = offset,
+                    blurRadius = 3f
+        )
         )
     )
 }
@@ -246,7 +264,12 @@ fun InputField(
         modifier = modifier,
 
     )
+
+
 }
+
+
+
 
 @Preview(showBackground = true)
 @Composable

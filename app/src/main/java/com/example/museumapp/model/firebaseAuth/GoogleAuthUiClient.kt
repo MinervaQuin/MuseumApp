@@ -3,6 +3,7 @@ package com.example.museumapp.model.firebaseAuth
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
 import com.example.museumapp.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
@@ -30,6 +31,7 @@ class GoogleAuthUiClient (
             if(e is CancellationException) throw e //a tomar por culo la excepcion
             null
         }
+        Log.d("result signIn", "IntentSender: ${result?.pendingIntent?.intentSender}")
         return result?.pendingIntent?.intentSender
     }
 

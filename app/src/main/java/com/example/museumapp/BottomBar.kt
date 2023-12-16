@@ -1,4 +1,5 @@
 package com.example.museumapp
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -16,16 +18,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.museumapp.ui.theme.black
+import com.example.museumapp.ui.theme.blue
 import com.example.museumapp.ui.theme.green
-import com.example.museumapp.ui.theme.gray
-import com.example.museumapp.ui.theme.white
+import com.example.museumapp.viewModel.qrViewModel
 
 
 @Composable
-fun BottomBar(navController: NavController){
+fun BottomBar(navController: NavController, viewmodel : qrViewModel){
     var currentRoute by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             currentRoute = destination.route.toString()
@@ -37,27 +43,17 @@ fun BottomBar(navController: NavController){
         }
     }
     BottomAppBar(
-        containerColor = green,
+        containerColor = black,
         modifier = Modifier
             .fillMaxWidth()
             .height(65.dp),
         content= {
-            BottomNavigationItem(
-                icon = {
-                    Icon(Icons.Default.Person,
-                        contentDescription = "profile",
-                        tint = if (currentRoute == "profile") white else gray,
-                        modifier = Modifier.size(32.dp)) },
-                selected = navController.currentDestination?.route == "profile",
-                onClick = {
-                    navController.navigate("profile")
-                }
-            )
+
             BottomNavigationItem(
                 icon = {
                     Icon(Icons.Default.Home,
                         contentDescription = "homePage",
-                        tint = if (currentRoute == "homePage") white else gray,
+                        tint = if (currentRoute == "homePage") blue else green,
                         modifier = Modifier.size(32.dp)) },
                 selected = navController.currentDestination?.route == "homePage",
                 onClick = {
@@ -66,13 +62,26 @@ fun BottomBar(navController: NavController){
             )
             BottomNavigationItem(
                 icon = {
-                    Icon(Icons.Default.LocationOn,
-                        contentDescription = "location",
-                        tint = if (currentRoute == "map") white else gray,
+                    Icon(Icons.Default.QrCodeScanner,
+                        contentDescription = "Lector qr",
+                        tint = if (currentRoute == "qr") blue else green,
                         modifier = Modifier.size(32.dp)) },
-                selected = navController.currentDestination?.route == "map",
+                selected = navController.currentDestination?.route == "qr",
                 onClick = {
-                    navController.navigate("map")
+                    viewmodel.setNavController(navController)
+                    viewmodel.initiateScan(context)
+                }
+            )
+            BottomNavigationItem(
+                icon = {
+                    Log.d("route", currentRoute)
+                    Icon(Icons.Default.Person,
+                        contentDescription = "profile",
+                        tint = if (currentRoute == "profileView") blue else green,
+                        modifier = Modifier.size(32.dp)) },
+                selected = navController.currentDestination?.route == "profile",
+                onClick = {
+                    navController.navigate("profileView")
                 }
             )
         }

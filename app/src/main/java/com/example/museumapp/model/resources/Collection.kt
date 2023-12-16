@@ -3,12 +3,12 @@ package com.example.museumapp.model.resources
 class Collection (
     var name: String = "",
     var description: String = "",
-    var books: Array<Book?> = arrayOf(),
+    var works: Array<Work?> = arrayOf(),
     var cover: String = ""
 ){
     override fun toString(): String {
 
-        val booksString = books.joinToString(separator = ", ", transform = { book ->
+        val booksString = works.joinToString(separator = ", ", transform = { book ->
             book?.toString() ?: "null"
         })
 
